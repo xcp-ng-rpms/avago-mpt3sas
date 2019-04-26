@@ -8,10 +8,15 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 22.00.00.00
-Release: 2%{?dist}
+Version: 27.101.00.00
+Release: 1%{?dist}
 License: GPL
-Source: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-%{name}/archive?at=%{version}&format=tgz&prefix=driver-%{name}-%{version}#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=27.101.00.00&format=tgz&prefix=driver-avago-mpt3sas-27.101.00.00#/avago-mpt3sas-27.101.00.00.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=27.101.00.00&format=tgz&prefix=driver-avago-mpt3sas-27.101.00.00#/avago-mpt3sas-27.101.00.00.tar.gz) = bc3814c01659a34ce3edb837ca3c22eb4b7eb657
+
 
 BuildRequires: gcc
 BuildRequires: kernel-devel
@@ -55,6 +60,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Tue Dec 18 2018 Deli Zhang <deli.zhang@citrix.com> - 27.101.00.00-1
+- CP-30072: Upgrade avago-mpt3sas driver to version 27.101.00.00
+
 * Wed Oct 11 2017 Thomas Mckelvey <thomas.mckelvey@citrix.com> - 22.00.00.00-2
 - CA-267947: Disabling DIX by setting prot_mask=0x07
 
