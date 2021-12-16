@@ -15,14 +15,14 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 33.100.00.00
+Version: 33.100.00.01
 Release: 1%{?dist}
 License: GPL
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=33.100.00.00&format=tgz&prefix=driver-avago-mpt3sas-33.100.00.00#/avago-mpt3sas-33.100.00.00.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=33.100.00.01&format=tgz&prefix=driver-avago-mpt3sas-33.100.00.01#/avago-mpt3sas-33.100.00.01.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=33.100.00.00&format=tgz&prefix=driver-avago-mpt3sas-33.100.00.00#/avago-mpt3sas-33.100.00.00.tar.gz) = 6767ee835be8952f8c290b6a4b0a2beec262dee4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=33.100.00.01&format=tgz&prefix=driver-avago-mpt3sas-33.100.00.01#/avago-mpt3sas-33.100.00.01.tar.gz) = ba8be249740d44e904f63b03e7f7ac0bd68bb6b7
 
 
 BuildRequires: gcc
@@ -67,6 +67,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Thu Sep 9 2021 Igor Druzhinin <igor.druzhinin@citrix.com> - 33.100.00.01-1
+- CA-357134: Fix a boot crash on some Dell servers
+
 * Wed May 20 2020 Tim Smith <tim.smith@citrix.com> - 33.100.00.00-1
 - CP-34008 Update avago-mpt3sas driver to 33.100.00.00-1
 
