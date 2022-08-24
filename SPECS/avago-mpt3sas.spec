@@ -1,3 +1,5 @@
+%global package_speccommit 7ca752a538e8d25499121c74cc972b8c157b0e8f
+%global package_srccommit 33.100.00.00
 %define vendor_name Avago
 %define vendor_label avago
 %define driver_name mpt3sas
@@ -15,17 +17,13 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 33.100.00.01
-Release: 1%{?dist}
+Version: 33.100.00.00
+Release: 2%{?xsrel}%{?dist}
 License: GPL
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=33.100.00.01&format=tgz&prefix=driver-avago-mpt3sas-33.100.00.01#/avago-mpt3sas-33.100.00.01.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-avago-mpt3sas/archive?at=33.100.00.01&format=tgz&prefix=driver-avago-mpt3sas-33.100.00.01#/avago-mpt3sas-33.100.00.01.tar.gz) = ba8be249740d44e904f63b03e7f7ac0bd68bb6b7
-
+Source0: avago-mpt3sas-33.100.00.00.tar.gz
 
 BuildRequires: kernel-devel
+%{?_cov_buildrequires}
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
 Requires(post): /usr/sbin/depmod
@@ -36,19 +34,22 @@ Requires(postun): /usr/sbin/depmod
 version %{kernel_version}.
 
 %prep
-%autosetup -p1 -n driver-%{name}-%{version}
+%autosetup -p1 -n %{name}-%{version}
+%{?_cov_prepare}
 
 %build
-%{?cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd) KSRC=/lib/modules/%{kernel_version}/build modules
+%{?_cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd) KSRC=/lib/modules/%{kernel_version}/build modules
 
 %install
 %{__install} -d %{buildroot}%{_sysconfdir}/modprobe.d
 echo 'options mpt3sas prot_mask=0x07' > %{driver_name}.conf
 %{__install} %{driver_name}.conf %{buildroot}%{_sysconfdir}/modprobe.d
-%{?cov_wrap} %{__make} %{?_smp_mflags} -C /lib/modules/%{kernel_version}/build M=$(pwd) INSTALL_MOD_PATH=%{buildroot} INSTALL_MOD_DIR=%{module_dir} DEPMOD=/bin/true modules_install
+%{?_cov_wrap} %{__make} %{?_smp_mflags} -C /lib/modules/%{kernel_version}/build M=$(pwd) INSTALL_MOD_PATH=%{buildroot} INSTALL_MOD_DIR=%{module_dir} DEPMOD=/bin/true modules_install
 
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+x
+
+%{?_cov_install}
 
 %post
 /sbin/depmod %{kernel_version}
@@ -65,9 +66,11 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %config(noreplace) %{_sysconfdir}/modprobe.d/*.conf
 /lib/modules/%{kernel_version}/*/*.ko
 
+%{?_cov_results_package}
+
 %changelog
-* Thu Sep 9 2021 Igor Druzhinin <igor.druzhinin@citrix.com> - 33.100.00.01-1
-- CA-357134: Fix a boot crash on some Dell servers
+* Mon Feb 14 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 33.100.00.00-2
+- CP-38416: Enable static analysis
 
 * Wed May 20 2020 Tim Smith <tim.smith@citrix.com> - 33.100.00.00-1
 - CP-34008 Update avago-mpt3sas driver to 33.100.00.00-1
