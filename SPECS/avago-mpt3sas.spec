@@ -18,7 +18,10 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Version: 38.00.00.00
-Release: 1%{?xsrel}%{?dist}
+Release: 1%{?xsrel}.1%{?dist}
+# Built against new kABI after cip rebase
+Requires: xcpng-kernel-kabi = 4.19.325-cip134+
+
 License: GPL
 Source0: avago-mpt3sas-38.00.00.00.tar.gz
 
@@ -84,4 +87,3 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 
 * Wed Oct 11 2017 Thomas Mckelvey <thomas.mckelvey@citrix.com> - 22.00.00.00-2
 - CA-267947: Disabling DIX by setting prot_mask=0x07
-
