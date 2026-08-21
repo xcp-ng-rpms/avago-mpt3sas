@@ -18,12 +18,12 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Version: 38.00.00.00
-Release: 1%{?xsrel}%{?dist}
+Release: 1%{?xsrel}.0.kernelpreview.1%{?dist}
 License: GPL
 Source0: avago-mpt3sas-38.00.00.00.tar.gz
 
 BuildRequires: gcc
-BuildRequires: kernel-devel
+BuildRequires: kernel-devel >= 4.19.325-cip137.8.0.46.16
 %{?_cov_buildrequires}
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
@@ -70,6 +70,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 16 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 38.00.00.00-1.0.kernelpreview.1
+- Rebuild for kernel v4.19.325-cip137
+
 * Mon Sep 05 2022 Zhuangxuan Fei <zhuangxuan.fei@citrix.com> - 38.00.00.00-1
 - CP-40165: Upgrade avago-mpt3sas driver to version 38.00.00.00
 
@@ -84,4 +87,3 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 
 * Wed Oct 11 2017 Thomas Mckelvey <thomas.mckelvey@citrix.com> - 22.00.00.00-2
 - CA-267947: Disabling DIX by setting prot_mask=0x07
-
