@@ -18,7 +18,7 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Version: 38.00.00.00
-Release: 1%{?xsrel}.1%{?dist}
+Release: 1%{?xsrel}.1.0.cip134.1%{?dist}
 # Built against new kABI after cip rebase
 Requires: xcpng-kernel-kabi = 4.19.325-cip134+
 
